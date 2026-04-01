@@ -3,185 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The OOO Protocol | Team Outing 2026</title>
+    <title>The OOO Protocol | Lead Outing 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@300;600;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --neon-green: #10b981;
-            --neon-blue: #3b82f6;
+        :root { --neon: #10b981; --bg: #020617; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: #e2e8f0; margin: 0; overflow-x: hidden; }
+        .mono { font-family: 'Fira Code', monospace; }
+        
+        /* Preloader */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 100; display: flex;
+            flex-direction: column; justify-content: center; items-center;
+            transition: opacity 0.8s ease, visibility 0.8s;
         }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #020617;
-            color: #f8fafc;
-            overflow-x: hidden;
+        .loader-text { font-size: 1.2rem; color: var(--neon); letter-spacing: 0.2em; text-align: center; }
+
+        @keyframes loading { 0% { left: -100%; } 100% { left: 100%; } }
+
+        /* Animations */
+        .content-hidden { opacity: 0; transform: translateY(20px); transition: all 1s ease; }
+        .content-visible { opacity: 1; transform: translateY(0); }
+        .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(16, 185, 129, 0.1); }
+        .neon-glow { text-shadow: 0 0 15px var(--neon); }
+
+        /* Clock Animation */
+        .clock-val {
+            animation: pulse-num 1s ease-in-out infinite alternate;
         }
-        .mono-font { font-family: 'JetBrains Mono', monospace; }
-        .glass {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 1rem;
+        @keyframes pulse-num {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0.8; transform: scale(0.95); }
         }
-        .neon-text-green {
-            text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
-            color: var(--neon-green);
+
+        /* Accordion */
+        .game-details { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
+        .game-card.active .game-details { max-height: 600px; }
+        .game-card.active .chevron { transform: rotate(180deg); }
+        .chevron { transition: transform 0.3s ease; }
+
+        .code-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            font-size: 10px; color: rgba(16, 185, 129, 0.03);
+            pointer-events: none; z-index: -1; white-space: pre;
+            animation: scrollCode 60s linear infinite;
         }
-        .game-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-left: 2px solid transparent;
-        }
-        .game-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-left: 2px solid var(--neon-green);
-            transform: translateX(5px);
-        }
-        #countdown-timer span {
-            color: var(--neon-green);
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .glitch-effect {
-            position: relative;
-        }
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--neon-green);
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 8px;
-            box-shadow: 0 0 8px var(--neon-green);
-            animation: blink 1.5s infinite;
-        }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        @keyframes scrollCode { from { transform: translateY(0); } to { transform: translateY(-50%); } }
     </style>
 </head>
-<body class="min-h-screen">
+<body onload="init()">
 
-    <section class="pt-20 pb-12 px-6 text-center">
-        <div class="mb-4 flex justify-center items-center">
-            <span class="status-dot"></span>
-            <span class="mono-font text-xs tracking-[0.3em] text-emerald-500 uppercase">System Status: Deploying Fun</span>
+    <div id="loader">
+        <div class="loader-text mono" id="loader-status">INITIALIZING_SYSTEM...</div>
+        <div class="loader-text mono font-bold mt-4" id="loader-title" style="display:none;">
+            THE OUT-OF-OFFICE PROTOCOL
         </div>
-        
-        <h1 class="mono-font text-4xl md:text-6xl font-bold mb-4 tracking-tighter">
-            THE <span class="neon-text-green">OUT-OF-OFFICE</span><br>
-            (OOO) PROTOCOL
-        </h1>
-        
-        <p class="text-gray-500 max-w-xl mx-auto mb-10 text-sm md:text-base">
-            Executing a high-priority break from the codebase. <br>
-            Venue: <strong>Akasa Pool Bar & Kitchen, Pune.</strong>
-        </p>
-
-        <div id="countdown-timer" class="flex justify-center gap-6 mb-16">
-            <div class="text-center">
-                <span id="days" class="text-4xl font-bold">00</span>
-                <p class="text-[10px] text-gray-500 uppercase mt-1">Days</p>
-            </div>
-            <div class="text-center">
-                <span id="hours" class="text-4xl font-bold">00</span>
-                <p class="text-[10px] text-gray-500 uppercase mt-1">Hours</p>
-            </div>
-            <div class="text-center">
-                <span id="mins" class="text-4xl font-bold">00</span>
-                <p class="text-[10px] text-gray-500 uppercase mt-1">Mins</p>
-            </div>
+        <div class="w-48 h-1 bg-emerald-900 mt-6 relative overflow-hidden">
+            <div class="absolute h-full bg-emerald-500 w-1/2" style="animation: loading 1.5s infinite;"></div>
         </div>
-    </section>
+    </div>
 
-    <div class="max-w-5xl mx-auto px-6 pb-20">
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
-            <div class="glass p-6 text-center">
-                <p class="text-xs text-emerald-500 mb-1 mono-font">DATE_TIME</p>
-                <p class="font-bold">03 APR 2026 / 19:00</p>
-            </div>
-            <div class="glass p-6 text-center border-emerald-500/30 border">
-                <p class="text-xs text-emerald-500 mb-1 mono-font">LOCATION</p>
-                <p class="font-bold uppercase">Akasa Poolside, Pune</p>
-            </div>
-            <div class="glass p-6 text-center">
-                <p class="text-xs text-emerald-500 mb-1 mono-font">RESOURCE_COST</p>
-                <p class="font-bold">₹500 - ₹800 approx</p>
-            </div>
-        </div>
+    <div class="code-bg mono" id="codeStream"></div>
 
-        <h2 class="mono-font text-xl mb-8 border-b border-emerald-500/20 pb-2">/ ACTIVATION_LOG</h2>
-        
-        <div class="space-y-4 mb-16">
-            <div class="glass p-6 game-card flex gap-6 items-start">
-                <div class="text-2xl pt-1">💬</div>
-                <div>
-                    <h3 class="font-bold text-emerald-400">Code Leak: Hybrid Edition</h3>
-                    <p class="text-sm text-gray-400">The ultimate team relay. Technical tongue twisters meet silent WhatsApp action sequences.</p>
+    <div id="main-content" class="content-hidden">
+        <header class="pt-20 pb-12 px-6 text-center">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_#10b981]"></span>
+                <span class="mono text-xs text-emerald-400 tracking-widest uppercase font-bold">Protocol Status: Deploying</span>
+            </div>
+            <h1 class="text-5xl md:text-8xl font-extrabold tracking-tighter mb-4 italic">
+                THE <span class="text-emerald-500 neon-glow uppercase">OOO</span> PROTOCOL
+            </h1>
+            <p class="mono text-gray-500 text-sm mb-12">Lead Outing & Networking Event</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto mb-16">
+                <div class="glass p-6 rounded-xl">
+                    <p class="mono text-emerald-500 text-[10px] mb-1">// VENUE</p>
+                    <p class="font-bold">Akasa Pool Bar & Kitchen</p>
+                    <p class="text-xs text-gray-500">Pune</p>
+                </div>
+                <div class="glass p-6 rounded-xl border-emerald-500/30 border">
+                    <p class="mono text-emerald-500 text-[10px] mb-1">// TIMESTAMP</p>
+                    <p class="font-bold">03 APR 2026</p>
+                    <p class="text-xs text-gray-500">Starts @ 7:00 PM Sharp</p>
+                </div>
+                <div class="glass p-6 rounded-xl">
+                    <p class="mono text-emerald-500 text-[10px] mb-1">// RESOURCE_COST</p>
+                    <p class="font-bold">₹500 - ₹800</p>
+                    <p class="text-xs text-gray-500">Per Head (Approximate)</p>
                 </div>
             </div>
 
-            <div class="glass p-6 game-card flex gap-6 items-start">
-                <div class="text-2xl pt-1">🗼</div>
-                <div>
-                    <h3 class="font-bold text-emerald-400">The Dual-Phase Stack</h3>
-                    <p class="text-sm text-gray-400">Relay race: First build a pyramid, then a vertical tower using the alternating position rule.</p>
+            <div class="flex justify-center gap-4 md:gap-10 mb-12">
+                <div class="flex flex-col items-center">
+                    <div class="glass w-16 h-20 md:w-24 md:h-28 flex items-center justify-center rounded-lg border-b-4 border-emerald-500">
+                        <span id="days" class="text-3xl md:text-5xl font-black clock-val text-emerald-400">00</span>
+                    </div>
+                    <p class="mono text-[10px] text-gray-500 mt-2 uppercase tracking-widest">Days</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="glass w-16 h-20 md:w-24 md:h-28 flex items-center justify-center rounded-lg border-b-4 border-emerald-500">
+                        <span id="hours" class="text-3xl md:text-5xl font-black clock-val text-emerald-400">00</span>
+                    </div>
+                    <p class="mono text-[10px] text-gray-500 mt-2 uppercase tracking-widest">Hours</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="glass w-16 h-20 md:w-24 md:h-28 flex items-center justify-center rounded-lg border-b-4 border-emerald-500">
+                        <span id="mins" class="text-3xl md:text-5xl font-black clock-val text-emerald-400">00</span>
+                    </div>
+                    <p class="mono text-[10px] text-gray-500 mt-2 uppercase tracking-widest">Mins</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="max-w-4xl mx-auto px-6 pb-24">
+            
+            <div class="mb-12">
+                <h2 class="mono text-emerald-500 text-sm font-bold mb-6 flex items-center gap-3">
+                    <span class="opacity-50">0x01</span> // TEAM_EXECUTION_MODE
+                </h2>
+                <div class="space-y-4">
+                    <div class="game-card glass rounded-xl cursor-pointer p-6" onclick="toggleGame(this)">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-4">
+                                <span class="text-2xl">💬</span>
+                                <div><h3 class="font-bold">Code Leak & WhatsApp Action</h3><p class="text-xs text-gray-400 italic">Whisper relay + Silent acting.</p></div>
+                            </div>
+                            <span class="chevron text-emerald-500">▼</span>
+                        </div>
+                        <div class="game-details">
+                            <div class="pt-6 mt-4 border-t border-emerald-500/10 text-sm space-y-4">
+                                <p><strong>Round 1 (The Whisper):</strong> A technical tongue twister is passed through the team. Accuracy is the metric.</p>
+                                <p><strong>Round 2 (The Action):</strong> First person acts out a 3-step WhatsApp instruction silently. No words allowed.</p>
+                                <p class="bg-emerald-500/10 p-3 rounded">Winning: The team with the highest accurate reconstruction of both rounds wins.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="game-card glass rounded-xl cursor-pointer p-6" onclick="toggleGame(this)">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-4">
+                                <span class="text-2xl">🗼</span>
+                                <div><h3 class="font-bold">The Dual-Phase Cup Stack</h3><p class="text-xs text-gray-400 italic">Architectural speed challenge.</p></div>
+                            </div>
+                            <span class="chevron text-emerald-500">▼</span>
+                        </div>
+                        <div class="game-details">
+                            <div class="pt-6 mt-4 border-t border-emerald-500/10 text-sm space-y-4">
+                                <p><strong>Phase A:</strong> Relay pyramid building (3-2-1 structure).</p>
+                                <p><strong>Phase B:</strong> Single vertical tower using alternating orientation: <strong>Bottom-Up → Top-Down → Bottom-Up.</strong></p>
+                                <p class="bg-emerald-500/10 p-3 rounded">Rule: If it falls, restart that phase. Only one member moves at a time.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="game-card glass rounded-xl cursor-pointer p-6" onclick="toggleGame(this)">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-4">
+                                <span class="text-2xl">🏁</span>
+                                <div><h3 class="font-bold">The Paper Ramp Relay</h3><p class="text-xs text-gray-400 italic">Continuous paper ramp ball transport.</p></div>
+                            </div>
+                            <span class="chevron text-emerald-500">▼</span>
+                        </div>
+                        <div class="game-details">
+                            <div class="pt-6 mt-4 border-t border-emerald-500/10 text-sm space-y-4">
+                                <p><strong>Action:</strong> Pass a ball from start to finish. As the ball passes you, sprint to the front to extend the ramp.</p>
+                                <p class="bg-emerald-500/10 p-3 rounded">Rule: No hands. If the ball touches the floor, restart from the beginning.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="game-card glass rounded-xl cursor-pointer p-6" onclick="toggleGame(this)">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-4">
+                                <span class="text-2xl">🏃</span>
+                                <div><h3 class="font-bold">Parallel Cup Pass</h3><p class="text-xs text-gray-400 italic">Synchronization relay race.</p></div>
+                            </div>
+                            <span class="chevron text-emerald-500">▼</span>
+                        </div>
+                        <div class="game-details">
+                            <div class="pt-6 mt-4 border-t border-emerald-500/10 text-sm space-y-4">
+                                <p><strong>Action:</strong> Two members hold corners of a paper containing 6 cups. They must run and pass it to the next pair.</p>
+                                <p class="bg-emerald-500/10 p-3 rounded">Winning: Fastest team to complete the relay without a spill.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="game-card glass rounded-xl cursor-pointer p-6" onclick="toggleGame(this)">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-4">
+                                <span class="text-2xl">🙈</span>
+                                <div><h3 class="font-bold">Blindfolded Cup Crash</h3><p class="text-xs text-gray-400 italic">Sensory guidance vs sabotage.</p></div>
+                            </div>
+                            <span class="chevron text-emerald-500">▼</span>
+                        </div>
+                        <div class="game-details">
+                            <div class="pt-6 mt-4 border-t border-emerald-500/10 text-sm space-y-4">
+                                <p><strong>Action:</strong> One blindfolded member must find and crush scattered cups.</p>
+                                <p><strong>The Twist:</strong> Your team guides you; the opposition shouts fake directions to distract you.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="glass p-6 game-card flex gap-6 items-start">
-                <div class="text-2xl pt-1">🎢</div>
-                <div>
-                    <h3 class="font-bold text-emerald-400">The Paper Ramp Relay</h3>
-                    <p class="text-sm text-gray-400">Construct a moving 'gutter' using paper sheets. Keep the ball flowing to the destination cup.</p>
+            <div>
+                <h2 class="mono text-cyan-500 text-sm font-bold mb-6 flex items-center gap-3">
+                    <span class="opacity-50">0x02</span> // INDIVIDUAL_ELIMINATION_LOG
+                </h2>
+                <div class="space-y-4">
+                    <div class="game-card glass rounded-xl cursor-pointer p-6" onclick="toggleGame(this)">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-4">
+                                <span class="text-2xl">🔢</span>
+                                <div><h3 class="font-bold">The Number Ring (Math Grid)</h3><p class="text-xs text-gray-400 italic">Rapid mental math elimination.</p></div>
+                            </div>
+                            <span class="chevron text-cyan-500">▼</span>
+                        </div>
+                        <div class="game-details"><div class="pt-6 mt-4 border-t border-cyan-500/10 text-sm">Jump between rings 1, 2, and 3 based on fast math commands. Wrong move = OUT.</div></div>
+                    </div>
+
+                    <div class="game-card glass rounded-xl cursor-pointer p-6" onclick="toggleGame(this)">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-4">
+                                <span class="text-2xl">📝</span>
+                                <div><h3 class="font-bold">The Lead's Legacy</h3><p class="text-xs text-gray-400 italic">Secret fact guessing game.</p></div>
+                            </div>
+                            <span class="chevron text-cyan-500">▼</span>
+                        </div>
+                        <div class="game-details"><div class="pt-6 mt-4 border-t border-cyan-500/10 text-sm">Use printed sheets of "Secret Facts" and interview your peers. Identify everyone first to win.</div></div>
+                    </div>
+
+                    <div class="game-card glass rounded-xl cursor-pointer p-6" onclick="toggleGame(this)">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-4">
+                                <span class="text-2xl">🎯</span>
+                                <div><h3 class="font-bold">The Liquid Goal (Finale)</h3><p class="text-xs text-gray-400 italic">Pledge & Celebration rituals.</p></div>
+                            </div>
+                            <span class="chevron text-cyan-500">▼</span>
+                        </div>
+                        <div class="game-details"><div class="pt-6 mt-4 border-t border-cyan-500/10 text-sm">Declare an "If it goes in..." pledge before your throw. Every member must score to end the game!</div></div>
+                    </div>
                 </div>
             </div>
+        </main>
 
-            <div class="glass p-6 game-card flex gap-6 items-start">
-                <div class="text-2xl pt-1">🏃</div>
-                <div>
-                    <h3 class="font-bold text-emerald-400">Parallel Cup Pass</h3>
-                    <p class="text-sm text-gray-400">Speed test! Pass 6 cups on a single page between team pairs. Highest sync wins.</p>
-                </div>
-            </div>
-
-            <div class="glass p-6 game-card flex gap-6 items-start">
-                <div class="text-2xl pt-1">🙈</div>
-                <div>
-                    <h3 class="font-bold text-emerald-400">Blindfolded Cup Crash</h3>
-                    <p class="text-sm text-gray-400">Crush the most cups while blindfolded. Your team guides you; the enemy sabotages you.</p>
-                </div>
-            </div>
-
-            <div class="glass p-6 game-card flex gap-6 items-start">
-                <div class="text-2xl pt-1">🔢</div>
-                <div>
-                    <h3 class="font-bold text-emerald-400">The Number Ring Challenge</h3>
-                    <p class="text-sm text-gray-400">The individual elimination round. Jump to ring 1, 2, or 3 based on fast mental math commands.</p>
-                </div>
-            </div>
-
-            <div class="glass p-6 game-card flex gap-6 items-start">
-                <div class="text-2xl pt-1">🎯</div>
-                <div>
-                    <h3 class="font-bold text-emerald-400">The Liquid Goal Finale</h3>
-                    <p class="text-sm text-gray-400">One ball, one cup. Make a 'pledge' and sink the shot to unlock the team celebration.</p>
-                </div>
-            </div>
-        </div>
-
-        <footer class="text-center text-gray-600 text-xs mono-font">
-            &copy; 2026 // LEAD_OUTING.EXE // NO_BUGS_ALLOWED
+        <footer class="text-center py-12 border-t border-white/5 opacity-30 mono text-[10px] tracking-widest">
+            &copy; 2026 // SYSTEM_OVERRIDE // EXECUTING_RELAXATION.EXE
         </footer>
     </div>
 
     <script>
-        const targetDate = new Date("April 3, 2026 19:00:00").getTime();
-        setInterval(function() {
+        function init() {
+            const status = document.getElementById('loader-status');
+            const title = document.getElementById('loader-title');
+            setTimeout(() => { status.innerText = "AUTHENTICATION_SUCCESSFUL."; }, 800);
+            setTimeout(() => { status.style.display = 'none'; title.style.display = 'block'; }, 1500);
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                document.getElementById('loader').style.visibility = 'hidden';
+                document.getElementById('main-content').classList.add('content-visible');
+            }, 2600);
+        }
+
+        function toggleGame(el) {
+            const isActive = el.classList.contains('active');
+            document.querySelectorAll('.game-card').forEach(c => c.classList.remove('active'));
+            if(!isActive) el.classList.add('active');
+        }
+
+        // Countdown Logic with Two-Digit Padding
+        const target = new Date("April 3, 2026 19:00:00").getTime();
+        setInterval(() => {
             const now = new Date().getTime();
-            const distance = targetDate - now;
-            document.getElementById("days").innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24));
-            document.getElementById("hours").innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById("mins").innerHTML = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const d = target - now;
+            
+            const days = Math.floor(d / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((d % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById("days").innerText = String(days).padStart(2, '0');
+            document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+            document.getElementById("mins").innerText = String(mins).padStart(2, '0');
         }, 1000);
+
+        // Code Stream Background
+        const stream = document.getElementById('codeStream');
+        let lines = "";
+        for(let i=0; i<150; i++) {
+            lines += `// OOO_PROTOCOL_INIT_${Math.random().toString(16).slice(2,8).toUpperCase()}\n`;
+            lines += `TEAM_SYNC: ${Math.random() > 0.5 ? 'GREEN' : 'OPTIMIZING'}\n`;
+        }
+        stream.innerText = lines + lines;
     </script>
 </body>
 </html>
