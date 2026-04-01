@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Outing | Akasa Pune</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+        }
+        .accent-text {
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <div class="max-w-3xl mx-auto">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 accent-text">Team Dinner Outing</h1>
+            <p class="text-gray-400 text-lg">Good food, better company, and a splash of fun.</p>
+        </header>
+
+        <div class="glass p-6 md:p-10 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h2 class="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">Event Details</h2>
+                    <ul class="space-y-6">
+                        <li class="flex items-center">
+                            <span class="bg-blue-500/20 p-3 rounded-lg mr-4 text-blue-400">📅</span>
+                            <div>
+                                <p class="text-sm text-gray-400 uppercase">Date</p>
+                                <p class="font-medium">Friday, 3rd April 2026</p>
+                            </div>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="bg-indigo-500/20 p-3 rounded-lg mr-4 text-indigo-400">📍</span>
+                            <div>
+                                <p class="text-sm text-gray-400 uppercase">Venue</p>
+                                <p class="font-medium">Akasa Pool Bar & Kitchen, Pune</p>
+                            </div>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="bg-purple-500/20 p-3 rounded-lg mr-4 text-purple-400">⏰</span>
+                            <div>
+                                <p class="text-sm text-gray-400 uppercase">Time</p>
+                                <p class="font-medium">7:00 PM Onwards</p>
+                            </div>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="bg-emerald-500/20 p-3 rounded-lg mr-4 text-emerald-400">💰</span>
+                            <div>
+                                <p class="text-sm text-gray-400 uppercase">Est. Cost</p>
+                                <p class="font-medium">₹500 – ₹800 per head</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">Timeline</h2>
+                    <div class="space-y-4">
+                        <div class="flex gap-4">
+                            <div class="text-blue-400 font-mono pt-1">19:00</div>
+                            <div class="border-l-2 border-gray-700 pl-4 pb-4">
+                                <p class="font-semibold">Arrival & Mocktails</p>
+                                <p class="text-sm text-gray-400 italic">Casual meet & greet</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="text-blue-400 font-mono pt-1">19:45</div>
+                            <div class="border-l-2 border-gray-700 pl-4 pb-4">
+                                <p class="font-semibold">Game Time</p>
+                                <p class="text-sm text-gray-400">Team building activities</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="text-blue-400 font-mono pt-1">20:30</div>
+                            <div class="border-l-2 border-gray-700 pl-4 pb-4">
+                                <p class="font-semibold">Dinner is Served</p>
+                                <p class="text-sm text-gray-400">Poolside dining experience</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="text-blue-400 font-mono pt-1">21:30</div>
+                            <div class="border-l-2 border-gray-700 pl-4">
+                                <p class="font-semibold">Networking & Chill</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mb-12">
+            <button onclick="document.getElementById('gamePlan').classList.toggle('hidden')" class="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-full transition-all text-sm font-semibold tracking-widest uppercase">
+                Reveal Game Plan 🔍
+            </button>
+            
+            <div id="gamePlan" class="hidden mt-6 glass p-6 text-left animate-fade-in">
+                <h3 class="text-xl font-bold mb-4 text-indigo-300">Activities Overview:</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-300">
+                    <li><strong>Two Truths and a Lie:</strong> Professional edition.</li>
+                    <li><strong>Team Trivia:</strong> Fun facts about our projects and teammates.</li>
+                    <li><strong>The Pitch:</strong> Small groups create a "fake" product in 5 mins.</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer class="text-center text-gray-500 text-sm">
+            Looking forward to a fun and relaxing evening together!
+        </footer>
+    </div>
+
+</body>
+</html>
