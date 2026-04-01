@@ -3,126 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Outing | Akasa Pune</title>
+    <title>The OOO Protocol | Team Outing 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --neon-green: #10b981;
+            --neon-blue: #3b82f6;
+        }
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: white;
+            background: #020617;
+            color: #f8fafc;
+            overflow-x: hidden;
         }
+        .mono-font { font-family: 'JetBrains Mono', monospace; }
         .glass {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
         }
-        .accent-text {
-            background: linear-gradient(90deg, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .neon-text-green {
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+            color: var(--neon-green);
         }
+        .game-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 2px solid transparent;
+        }
+        .game-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 2px solid var(--neon-green);
+            transform: translateX(5px);
+        }
+        #countdown-timer span {
+            color: var(--neon-green);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .glitch-effect {
+            position: relative;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--neon-green);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 8px var(--neon-green);
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
     </style>
 </head>
-<body class="min-h-screen p-4 md:p-8">
+<body class="min-h-screen">
 
-    <div class="max-w-3xl mx-auto">
-        <header class="text-center mb-12">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4 accent-text">Team Dinner Outing</h1>
-            <p class="text-gray-400 text-lg">Good food, better company, and a splash of fun.</p>
-        </header>
+    <section class="pt-20 pb-12 px-6 text-center">
+        <div class="mb-4 flex justify-center items-center">
+            <span class="status-dot"></span>
+            <span class="mono-font text-xs tracking-[0.3em] text-emerald-500 uppercase">System Status: Deploying Fun</span>
+        </div>
+        
+        <h1 class="mono-font text-4xl md:text-6xl font-bold mb-4 tracking-tighter">
+            THE <span class="neon-text-green">OUT-OF-OFFICE</span><br>
+            (OOO) PROTOCOL
+        </h1>
+        
+        <p class="text-gray-500 max-w-xl mx-auto mb-10 text-sm md:text-base">
+            Executing a high-priority break from the codebase. <br>
+            Venue: <strong>Akasa Pool Bar & Kitchen, Pune.</strong>
+        </p>
 
-        <div class="glass p-6 md:p-10 mb-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div id="countdown-timer" class="flex justify-center gap-6 mb-16">
+            <div class="text-center">
+                <span id="days" class="text-4xl font-bold">00</span>
+                <p class="text-[10px] text-gray-500 uppercase mt-1">Days</p>
+            </div>
+            <div class="text-center">
+                <span id="hours" class="text-4xl font-bold">00</span>
+                <p class="text-[10px] text-gray-500 uppercase mt-1">Hours</p>
+            </div>
+            <div class="text-center">
+                <span id="mins" class="text-4xl font-bold">00</span>
+                <p class="text-[10px] text-gray-500 uppercase mt-1">Mins</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="max-w-5xl mx-auto px-6 pb-20">
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+            <div class="glass p-6 text-center">
+                <p class="text-xs text-emerald-500 mb-1 mono-font">DATE_TIME</p>
+                <p class="font-bold">03 APR 2026 / 19:00</p>
+            </div>
+            <div class="glass p-6 text-center border-emerald-500/30 border">
+                <p class="text-xs text-emerald-500 mb-1 mono-font">LOCATION</p>
+                <p class="font-bold uppercase">Akasa Poolside, Pune</p>
+            </div>
+            <div class="glass p-6 text-center">
+                <p class="text-xs text-emerald-500 mb-1 mono-font">RESOURCE_COST</p>
+                <p class="font-bold">₹500 - ₹800 approx</p>
+            </div>
+        </div>
+
+        <h2 class="mono-font text-xl mb-8 border-b border-emerald-500/20 pb-2">/ ACTIVATION_LOG</h2>
+        
+        <div class="space-y-4 mb-16">
+            <div class="glass p-6 game-card flex gap-6 items-start">
+                <div class="text-2xl pt-1">💬</div>
                 <div>
-                    <h2 class="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">Event Details</h2>
-                    <ul class="space-y-6">
-                        <li class="flex items-center">
-                            <span class="bg-blue-500/20 p-3 rounded-lg mr-4 text-blue-400">📅</span>
-                            <div>
-                                <p class="text-sm text-gray-400 uppercase">Date</p>
-                                <p class="font-medium">Friday, 3rd April 2026</p>
-                            </div>
-                        </li>
-                        <li class="flex items-center">
-                            <span class="bg-indigo-500/20 p-3 rounded-lg mr-4 text-indigo-400">📍</span>
-                            <div>
-                                <p class="text-sm text-gray-400 uppercase">Venue</p>
-                                <p class="font-medium">Akasa Pool Bar & Kitchen, Pune</p>
-                            </div>
-                        </li>
-                        <li class="flex items-center">
-                            <span class="bg-purple-500/20 p-3 rounded-lg mr-4 text-purple-400">⏰</span>
-                            <div>
-                                <p class="text-sm text-gray-400 uppercase">Time</p>
-                                <p class="font-medium">7:00 PM Onwards</p>
-                            </div>
-                        </li>
-                        <li class="flex items-center">
-                            <span class="bg-emerald-500/20 p-3 rounded-lg mr-4 text-emerald-400">💰</span>
-                            <div>
-                                <p class="text-sm text-gray-400 uppercase">Est. Cost</p>
-                                <p class="font-medium">₹500 – ₹800 per head</p>
-                            </div>
-                        </li>
-                    </ul>
+                    <h3 class="font-bold text-emerald-400">Code Leak: Hybrid Edition</h3>
+                    <p class="text-sm text-gray-400">The ultimate team relay. Technical tongue twisters meet silent WhatsApp action sequences.</p>
                 </div>
+            </div>
 
+            <div class="glass p-6 game-card flex gap-6 items-start">
+                <div class="text-2xl pt-1">🗼</div>
                 <div>
-                    <h2 class="text-2xl font-semibold mb-6 border-b border-gray-700 pb-2">Timeline</h2>
-                    <div class="space-y-4">
-                        <div class="flex gap-4">
-                            <div class="text-blue-400 font-mono pt-1">19:00</div>
-                            <div class="border-l-2 border-gray-700 pl-4 pb-4">
-                                <p class="font-semibold">Arrival & Mocktails</p>
-                                <p class="text-sm text-gray-400 italic">Casual meet & greet</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="text-blue-400 font-mono pt-1">19:45</div>
-                            <div class="border-l-2 border-gray-700 pl-4 pb-4">
-                                <p class="font-semibold">Game Time</p>
-                                <p class="text-sm text-gray-400">Team building activities</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="text-blue-400 font-mono pt-1">20:30</div>
-                            <div class="border-l-2 border-gray-700 pl-4 pb-4">
-                                <p class="font-semibold">Dinner is Served</p>
-                                <p class="text-sm text-gray-400">Poolside dining experience</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="text-blue-400 font-mono pt-1">21:30</div>
-                            <div class="border-l-2 border-gray-700 pl-4">
-                                <p class="font-semibold">Networking & Chill</p>
-                            </div>
-                        </div>
-                    </div>
+                    <h3 class="font-bold text-emerald-400">The Dual-Phase Stack</h3>
+                    <p class="text-sm text-gray-400">Relay race: First build a pyramid, then a vertical tower using the alternating position rule.</p>
+                </div>
+            </div>
+
+            <div class="glass p-6 game-card flex gap-6 items-start">
+                <div class="text-2xl pt-1">🎢</div>
+                <div>
+                    <h3 class="font-bold text-emerald-400">The Paper Ramp Relay</h3>
+                    <p class="text-sm text-gray-400">Construct a moving 'gutter' using paper sheets. Keep the ball flowing to the destination cup.</p>
+                </div>
+            </div>
+
+            <div class="glass p-6 game-card flex gap-6 items-start">
+                <div class="text-2xl pt-1">🏃</div>
+                <div>
+                    <h3 class="font-bold text-emerald-400">Parallel Cup Pass</h3>
+                    <p class="text-sm text-gray-400">Speed test! Pass 6 cups on a single page between team pairs. Highest sync wins.</p>
+                </div>
+            </div>
+
+            <div class="glass p-6 game-card flex gap-6 items-start">
+                <div class="text-2xl pt-1">🙈</div>
+                <div>
+                    <h3 class="font-bold text-emerald-400">Blindfolded Cup Crash</h3>
+                    <p class="text-sm text-gray-400">Crush the most cups while blindfolded. Your team guides you; the enemy sabotages you.</p>
+                </div>
+            </div>
+
+            <div class="glass p-6 game-card flex gap-6 items-start">
+                <div class="text-2xl pt-1">🔢</div>
+                <div>
+                    <h3 class="font-bold text-emerald-400">The Number Ring Challenge</h3>
+                    <p class="text-sm text-gray-400">The individual elimination round. Jump to ring 1, 2, or 3 based on fast mental math commands.</p>
+                </div>
+            </div>
+
+            <div class="glass p-6 game-card flex gap-6 items-start">
+                <div class="text-2xl pt-1">🎯</div>
+                <div>
+                    <h3 class="font-bold text-emerald-400">The Liquid Goal Finale</h3>
+                    <p class="text-sm text-gray-400">One ball, one cup. Make a 'pledge' and sink the shot to unlock the team celebration.</p>
                 </div>
             </div>
         </div>
 
-        <div class="text-center mb-12">
-            <button onclick="document.getElementById('gamePlan').classList.toggle('hidden')" class="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-full transition-all text-sm font-semibold tracking-widest uppercase">
-                Reveal Game Plan 🔍
-            </button>
-            
-            <div id="gamePlan" class="hidden mt-6 glass p-6 text-left animate-fade-in">
-                <h3 class="text-xl font-bold mb-4 text-indigo-300">Activities Overview:</h3>
-                <ul class="list-disc list-inside space-y-2 text-gray-300">
-                    <li><strong>Two Truths and a Lie:</strong> Professional edition.</li>
-                    <li><strong>Team Trivia:</strong> Fun facts about our projects and teammates.</li>
-                    <li><strong>The Pitch:</strong> Small groups create a "fake" product in 5 mins.</li>
-                </ul>
-            </div>
-        </div>
-
-        <footer class="text-center text-gray-500 text-sm">
-            Looking forward to a fun and relaxing evening together!
+        <footer class="text-center text-gray-600 text-xs mono-font">
+            &copy; 2026 // LEAD_OUTING.EXE // NO_BUGS_ALLOWED
         </footer>
     </div>
 
+    <script>
+        const targetDate = new Date("April 3, 2026 19:00:00").getTime();
+        setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            document.getElementById("days").innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById("hours").innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("mins").innerHTML = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        }, 1000);
+    </script>
 </body>
 </html>
